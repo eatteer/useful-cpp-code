@@ -6,42 +6,46 @@ using namespace std;
 
 int** create_matrix(int n, int m) {
   /*
-  pointer ----> [row pointer] ----> [1, 2, 3, 4]
-                [row pointer] ----> [5, 6, 7, 8]
-                [row pointer] ----> [1, 2, 3, 4]
-                [row pointer] ----> [5, 6, 7, 8]
-  */
-  /*
-  pointer ----> [row pointer,   row pointer,    row pointer,    row pointer]
-                |               |               |               |
-                v               v               v               v
-                [1, 2, 3, 4]    [5, 6, 7, 8]    [1, 2, 3, 4]    [5, 6, 7, 8]
+  It consists of creating a main pointer which points to an array of pointers
+  where each pointer points to an array, forming a structure that represents a
+  matrix
+
+  pointer ----> [pointer] ----> [1, 2, 3, 4]
+                [pointer] ----> [5, 6, 7, 8]
+                [pointer] ----> [1, 2, 3, 4]
+                [pointer] ----> [5, 6, 7, 8]
+
+  pointer ----> [pointer,   pointer,    pointer,    pointer]
+                |           |           |           |
+                v           v           v           v
+                [1, 2, 3, 4][5, 6, 7, 8][1, 2, 3, 4][5, 6, 7, 8]
   */
 
   int** matrix = new int*[n];
   for (int i = 0; i < n; i++) {
     matrix[i] = new int[m];
   }
-
-  // input: cin>>*(*(matrix+i)+j);
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++) {
-      matrix[i][j] = rand() % 10;
+      matrix[i][j] = rand() % 10;  // Fill matrix with random numbers
     }
   }
 
   return matrix;
 }
 
+/*
+It is important to free memory after use
+*/
 void free_memory(int** matrix, int n) {
   for (int i = 0; i < n; i++) {
-    delete[] matrix[i];
+    delete[] matrix[i];  // Free memory for each pointer in array
   }
-  delete[] matrix;
+
+  delete[] matrix;  // Free memory for main pointer
 }
 
 void print_matrix(int** matrix, int n, int m) {
-  // output: cout<<*(*(matrix+i)+j);
   for (int i = 0; i < n; i++) {
     cout << "[ ";
     for (int j = 0; j < m; j++) {
@@ -52,7 +56,7 @@ void print_matrix(int** matrix, int n, int m) {
 }
 
 int main() {
-  srand(time(NULL));
+  srand(time(NULL));  // Initializate seed for the random number generator
   int n, m = 0;
   cout << "Rows: ";
   cin >> n;
